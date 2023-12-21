@@ -1,0 +1,180 @@
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #ee9322;
+  position: relative;
+}
+
+header {
+  background-color: #bb2525;
+  color: #fff;
+  text-align: center;
+  padding: 1em;
+  display: flex;
+  align-items: center; /* Center the logo and title vertically */
+}
+
+#sidebar {
+  width: 250px;
+  height: 100%;
+  background-color: rgba(187, 37, 37, 0.8); /* Initial Transparent Red */
+  position: fixed;
+  left: -250px; /* Adjusted initial position */
+  transition: left 0.3s, background-color 0.3s; /* Added background-color transition */
+  padding-top: 60px;
+  z-index: 1;
+}
+
+/* Add a class to style the sidebar with a solid background */
+.solid-bg #sidebar {
+  background-color: rgba(187, 37, 37, 1) !important; /* Solid Red */
+}
+
+#main-content {
+  margin-left: 250px;
+  padding: 1em;
+  transition: margin-left 0.3s;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  padding: 0.5em 1em;
+  margin: 0 1em;
+  border-radius: 5px;
+  display: block;
+  transition: background-color 0.3s;
+}
+
+nav a:hover {
+  background-color: #bb2525;
+}
+
+#toggle-btn {
+  background-color: #bb2525;
+  color: #fff;
+  border: none;
+  padding: 0.5em 1em;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  position: fixed;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  transition: left 0.3s;
+}
+
+#toggle-btn:hover {
+  background-color: #bb2525;
+}
+
+#logo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 10px;
+}
+
+#logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+h1 {
+  margin: 0;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #bb2525;
+  color: #fff;
+  text-align: center;
+  padding: 1em;
+  display: none; /* Initially hide the footer */
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+#profile {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+#profile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.dropdown-btn {
+  color: #fff;
+  text-decoration: none;
+  padding: 0.5em 1em;
+  margin: 0 1em;
+  border-radius: 5px;
+  display: block;
+  transition: background-color 0.3s;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #bb2525;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: #fff;
+  text-decoration: none;
+  padding: 0.5em 1em;
+  display: block;
+  transition: background-color 0.3s;
+}
+
+.dropdown-content a:hover {
+  background-color: #911d1d;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
