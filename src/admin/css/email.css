@@ -1,0 +1,114 @@
+body {
+  margin-top: 50px;
+}
+.nav-tabs .glyphicon:not(.no-margin) {
+  margin-right: 10px;
+}
+.tab-pane .list-group-item:first-child {
+  border-top-right-radius: 0px;
+  border-top-left-radius: 0px;
+}
+.tab-pane .list-group-item:last-child {
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+.tab-pane .list-group .checkbox {
+  display: inline-block;
+  margin: 0px;
+}
+.tab-pane .list-group input[type="checkbox"] {
+  margin-top: 2px;
+}
+.tab-pane .list-group .glyphicon {
+  margin-right: 5px;
+}
+.tab-pane .list-group .glyphicon:hover {
+  color: #ffbc00;
+}
+a.list-group-item.read {
+  color: #222;
+  background-color: #f3f3f3;
+}
+hr {
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+.nav-pills > li > a {
+  padding: 5px 10px;
+}
+
+.ad {
+  padding: 5px;
+  background: #f5f5f5;
+  color: #222;
+  font-size: 80%;
+  border: 1px solid #e5e5e5;
+}
+.ad a.title {
+  color: #15c;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 110%;
+}
+.ad a.url {
+  color: #093;
+  text-decoration: none;
+}
+.alert-message {
+  margin: 20px 0;
+  padding: 20px;
+  border-left: 3px solid #eee;
+}
+.alert-message h4 {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+.alert-message p:last-child {
+  margin-bottom: 0;
+}
+.alert-message code {
+  background-color: #fff;
+  border-radius: 3px;
+}
+.alert-message-success {
+  background-color: #f4fdf0;
+  border-color: #3c763d;
+}
+.alert-message-success h4 {
+  color: #3c763d;
+}
+.alert-message-danger {
+  background-color: #fdf7f7;
+  border-color: #d9534f;
+}
+.alert-message-danger h4 {
+  color: #d9534f;
+}
+.alert-message-warning {
+  background-color: #fcf8f2;
+  border-color: #f0ad4e;
+}
+.alert-message-warning h4 {
+  color: #f0ad4e;
+}
+.alert-message-info {
+  background-color: #f4f8fa;
+  border-color: #5bc0de;
+}
+.alert-message-info h4 {
+  color: #5bc0de;
+}
+.alert-message-default {
+  background-color: #eee;
+  border-color: #b4b4b4;
+}
+.alert-message-default h4 {
+  color: #000;
+}
+.alert-message-notice {
+  background-color: #fcfcdd;
+  border-color: #bdbd89;
+}
+.alert-message-notice h4 {
+  color: #444;
+}

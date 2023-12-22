@@ -59,6 +59,7 @@ $newUsers = $stmt3->fetchAll(PDO::FETCH_ASSOC);
     <link href="css/styles.css" rel="stylesheet" />
     <link rel="stylesheet" href="./css/style.min.css">
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
 </head>
 
 <body class="sb-nav-fixed">

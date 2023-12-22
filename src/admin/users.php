@@ -37,14 +37,11 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-        <!-- Navbar Brand-->
         <a class="navbar-brand ps-3" href="index.html">OSMS Admin Panel</a>
-        <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
                 class="fas fa-bars"></i></button>
         <div class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
         </div>
-        <!-- Navbar-->
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
@@ -119,8 +116,8 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <?php foreach ($users as $user): ?>
                                         <tr>
                                             <td>
-                                                <?php echo htmlspecialchars($user['id']); ?>
-                                            </td> <!-- Replace 'id' with your actual user ID column name -->
+                                                <?php echo htmlspecialchars($user['user_id']); ?>
+                                            </td>
                                             <td>
                                                 <label class="users-table__checkbox">
                                                     <div class="categories-table-img">
@@ -136,7 +133,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             </td>
                                             <td>
                                                 <?php echo htmlspecialchars($user['first_name']); ?>
-                                            </td> <!-- Replace 'first_name' with your actual first name column name -->
+                                            </td>
                                             <td>
                                                 <?php echo htmlspecialchars($user['last_name']); ?>
                                             </td>
@@ -155,6 +152,27 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- Edit Modal -->
+                <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel">Edit User</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Your form for editing a user goes here -->
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
                         </div>
                     </div>
                 </div>

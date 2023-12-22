@@ -10,6 +10,19 @@ if (!isAdmin()) {
 }
 
 $userId = $_SESSION['user_id'];
+
+$sql = "SELECT * FROM inquiries ORDER BY date_created DESC";
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+
+$messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$countSql = "SELECT COUNT(*) as messageCount FROM inquiries";
+$countStmt = $pdo->prepare($countSql);
+$countStmt->execute();
+
+// Fetch the count
+$messageCount = $countStmt->fetchColumn();
 ?>
 
 <!DOCTYPE html>
@@ -22,17 +35,11 @@ $userId = $_SESSION['user_id'];
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>OSMS - Admin Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="./css/style.min.css">
-    <link rel="stylesheet" href="css/email.css" class="style">
-    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.min.css" />
-    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 </head>
 
 <body class="sb-nav-fixed">
@@ -95,219 +102,65 @@ $userId = $_SESSION['user_id'];
         </div>
         <div id="layoutSidenav_content">
             <main class="main users chart-page" id="skip-target">
-
-                <div class="container pb-mail-template1">
+                <br><br><br>
+                <div class="container">
                     <div class="row">
-                        <div class="col-md-12">
-                            <div class="row">
-                                <nav class="navbar navbar-default pb-mail-navbar">
-                                    <div class="container-fluid">
-                                        <!-- Brand and toggle get grouped for better mobile display -->
-                                        <div class="navbar-header">
-                                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                                                data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                                                <span class="sr-only">Toggle navigation</span>
-                                                <span class="icon-bar"></span>
-                                                <span class="icon-bar"></span>
-                                                <span class="icon-bar"></span>
-                                            </button>
-                                            <a class="navbar-brand text-black" id="brand" href="#">Hello, <u>
-                                                    <?php echo $user_data['first_name'] . " " . $user_data['last_name']; ?>
-                                                </u></a>
-                                        </div>
-                                    </div>
-                                </nav>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-2" id="column-resize">
-                                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                                        <button id="btn_email" class="btn btn-danger" data-toggle="modal"
-                                            data-target="#myModal">
-                                            New E-mail
-                                        </button>
-                                        <div id="treeview">
-                                        </div>
-                                    </div>
-                                    <!-- /.navbar-collapse -->
-                                </div>
-                                <div class="col-md-10">
-                                    <div class="row" id="row_style">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <div class="row">
-                                                    <div class="col-xs-4 col-md-4">
-                                                        <p id="inbox_parag">INBOX</p>
-                                                    </div>
-                                                    <div class="col-xs-8 col-md-8">
-                                                        <div class="input-group">
-                                                            <input type="text" name="" placeholder="Seach...."
-                                                                class="form-control">
-                                                            <span class="input-group-btn">
-                                                                <button class="btn btn-primary" type="button"
-                                                                    tabindex="-1">
-                                                                    <span class="fa fa-question fa-2x"
-                                                                        area-hidden="true"></span>
-                                                                </button>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="panel-body">
-                                                <div class="row">
-                                                    <div class="col-xs-9 col-md-10">
-                                                        <div class="btn-group">
-                                                            <a data-toggle="dropdown" href="#"
-                                                                class="btn btn-warning btn-md" aria-expanded="false">All
-                                                                <i class="fa fa-angle-down "></i>
-                                                            </a>
-                                                            <ul class="dropdown-menu">
-                                                                <li><a href="#">None</a></li>
-                                                                <li><a href="#">Read</a></li>
-                                                                <li><a href="#">Unread</a></li>
-                                                            </ul>
-                                                            <a href="#" class="btn btn-warning">
-                                                                <i class=" fa fa-refresh fa-lg"></i>
-                                                            </a>
-                                                        </div>
-                                                        <div class="btn-group">
-                                                            <a data-toggle="dropdown" href="#"
-                                                                class="btn btn-warning btn-md"
-                                                                aria-expanded="false">More
-                                                                <i class="fa fa-angle-down "></i>
-                                                            </a>
-                                                            <ul class="dropdown-menu">
-                                                                <li><a href="#">Mark all as read</a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xs-3 col-md-2">
+                        <div class="col-sm-3 col-md-2">
+                        </div>
+                        <div class="col-sm-9 col-md-10">
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-sm-3 col-md-2">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li class="active">
+                                    <a href="#">
+                                        <span class="badge pull-right">
+                                            <?php echo $messageCount; ?>
+                                        </span> Inbox
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-9 col-md-10">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#home" data-toggle="tab"><span
+                                            class="glyphicon glyphicon-inbox">
+                                        </span>Suggestions</a></li>
 
-                                                        <div class="btn-group pull-right">
-                                                            <a data-toggle="dropdown" href="#" class="btn btn-primary"
-                                                                aria-expanded="false">
-                                                                <i class="fa fa-cog"></i>
-                                                            </a>
-                                                            <ul class="dropdown-menu">
-                                                                <li><a href="#">Comfortable</a></li>
-                                                                <li><a href="#">Cozy</a></li>
-                                                                <li><a href="#">Compact</a></li>
-                                                                <hr>
-                                                                <li><a href="#">Configure inbox</a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <hr>
-                                                <div id="grid"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Modal view -->
-                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-                                aria-labelledby="exampleModal" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <h5>New message</h5>
-                                                </div>
-                                                <div class="col-md-8">
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form>
-                                                <div class="form-group row">
-                                                    <div class="col-md-3">
-                                                        <p>To: </p>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input type="text" name="search" placeholder="Enter e-mail"
-                                                            class="form-control">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <div class="col-md-3">
-                                                        <p>Subject: </p>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input type="text" name="search" class="form-control">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <div class="col-md-3">
-                                                        <p>Message: </p>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <textarea class="form-control" rows="10"></textarea>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button class="btn btn-primary pull-left" id="btn_file">
-                                                <span class="fa fa-paperclip fa-2x"></span>
-                                                <input type="file" id="file" style="display: none;" />
-                                            </button>
-                                            <button type="button" class="btn btn-secondary"
-                                                data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary">Send</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End of modal -->
-
+                            </ul>
+                            <!-- Messages -->
+                            <?php
+                            if ($messages) {
+                                foreach ($messages as $message) {
+                                    $messageId = $message['id']; // Assuming there's a unique identifier like 'id' in your 'inquiries' table
+                            
+                                    echo '<a href="message_details.php?id=' . $messageId . '" class="list-group-item">';
+                                    echo '<div class="checkbox">';
+                                    echo '<label>';
+                                    echo '<input type="checkbox">';
+                                    echo '</label>';
+                                    echo '</div>';
+                                    echo '<span class="glyphicon glyphicon-star-empty"></span><span class="name" style="min-width: 120px; display: inline-block;">' . ($message["email"] !== null ? htmlspecialchars($message["email"]) : '') . '</span>';
+                                    echo '<span class="">' . ($message["name"] !== null ? htmlspecialchars($message["name"]) : '') . '</span>';
+                                    echo '<span class="text-muted" style="font-size: 11px;">' . ($message["message"] !== null ? htmlspecialchars($message["message"]) : '') . '</span>';
+                                    echo '<span class="badge">' . ($message["date_created"] !== null ? htmlspecialchars($message["date_created"]) : '') . '</span>';
+                                    echo '</span>';
+                                    echo '</a>';
+                                }
+                            } else {
+                                // If no messages are found
+                                echo '<div class="list-group-item">';
+                                echo '<span class="text-center">No messages found.</span>';
+                                echo '</div>';
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>
-                <script type="text/javascript">
-                    $(function () {
-                        $("#treeview").shieldTreeView({
-                            dataSource: dataSrc
-                        });
 
-                        $.ajax({
-                            url: 'fInc.php',
-                            method: 'GET',
-                            dataType: 'json',
-                            success: function (data) {
-                                $("#grid").shieldGrid({
-                                    dataSource: {
-                                        data: data
-                                    },
-                                    sorting: {
-                                        multiple: true
-                                    },
-                                    paging: {
-                                        pageSize: 12,
-                                        pageLinksCount: 10
-                                    },
-                                    selection: {
-                                        type: "row",
-                                        multiple: true,
-                                        toggle: false
-                                    },
-                                    columns: [
-                                        { field: "name", title: "Name", width: "10em" },
-                                        { field: "email", title: "Email", width: "10em" },
-                                        { field: "message", title: "Message", width: "20em" },
-                                        { field: "date_created", title: "Date Created", width: "6em" }
-                                    ]
-                                });
-                            }
-                        });
-                    })
-                </script>
             </main>
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
@@ -323,27 +176,29 @@ $userId = $_SESSION['user_id'];
             </footer>
         </div>
     </div>
-    <link rel="stylesheet" type="text/css"
-        href="http://www.shieldui.com/shared/components/latest/css/light-bootstrap/all.min.css" />
-    <script type="text/javascript"
-        src="http://www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
-    <script type="text/javascript" src="http://www.prepbootstrap.com/Content/data/emailData.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"></script>
-    <script src="js/scripts.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="assets/demo/chart-area-demo.js"></script>
-    <script src="assets/demo/chart-bar-demo.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
-    crossorigin="anonymous"></script>
-    <script src="js/datatables-simple-demo.js"></script>
-    <script src="./plugins/chart.min.js"></script>
-    <script src="plugins/feather.min.js"></script>
-    <script src="js/script.js"></script>
-    <script src="js/elescript.js"></script>
+    <!-- Modal -->
+    <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="messageModalLabel">Message Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Display name, email, date_created, and message here -->
+                    <p><strong>Name:</strong> <span id="modalName"></span></p>
+                    <p><strong>Email:</strong> <span id="modalEmail"></span></p>
+                    <p><strong>Date Created:</strong> <span id="modalDate"></span></p>
+                    <p><strong>Message:</strong> <span id="modalMessage"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" id="deleteMessageBtn">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 
 </html>
