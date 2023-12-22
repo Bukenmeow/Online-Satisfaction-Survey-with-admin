@@ -1,5 +1,5 @@
 <?php
-
+include("config.php");
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password_hash'];
@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $profilePicture = $_FILES['profile_picture'];
         $fileExtension = pathinfo($profilePicture['name'], PATHINFO_EXTENSION);
         $md5Filename = md5(uniqid(rand(), true)) . '.' . $fileExtension;
-        $destinationFolder = 'uploads/';
+        $destinationFolder = '../uploads/';
         $destinationPath = $destinationFolder . $md5Filename;
 
         if (move_uploaded_file($profilePicture['tmp_name'], $destinationPath)) {
@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
             if ($insertQuery->execute()) {
-                header('Location: login.php');
+                header('Location: ../login.php');
                 exit();
             } else {
                 $error_message = 'Error: ' . $insertQuery->errorInfo()[2];

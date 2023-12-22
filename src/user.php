@@ -121,7 +121,7 @@ if (isAdmin()) {
                                 <i data-feather="bar-chart-2" aria-hidden="true"></i>
                             </div>
                             <div class="stat-cards-info">
-                                <a href="indicatorDash.php">
+                                <a href="IndicatorDash.php">
                                     <button type="button" class="btn btn-primary row"
                                         data-mdb-ripple-init>Indicator</button>
                                 </a>

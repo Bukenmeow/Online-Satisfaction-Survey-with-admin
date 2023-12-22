@@ -1,7 +1,6 @@
 <?php
 session_start();
 include("logics/config.php");
-include("logics/register.php");
 if (isset($_SESSION["user_id"])) {
     header("Location: user.php");
     die();
@@ -25,7 +24,7 @@ if (isset($_SESSION["user_id"])) {
         <img src="dst_logo.jpg" alt="Logo">
     </div>
 
-    <form method="post" enctype="multipart/form-data">
+    <form action="logics/register.php" method="post" enctype="multipart/form-data">
         <h1>Sign Up</h1>
 
         <div>

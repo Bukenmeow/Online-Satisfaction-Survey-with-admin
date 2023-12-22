@@ -174,6 +174,7 @@ $newUsers = $stmt3->fetchAll(PDO::FETCH_ASSOC);
                                         <th>First name</th>
                                         <th>Last name</th>
                                         <th>Date Registered</th>
+                                        <th>Role</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -202,6 +203,9 @@ $newUsers = $stmt3->fetchAll(PDO::FETCH_ASSOC);
                                             </td>
                                             <td>
                                                 <?php echo htmlspecialchars($user['date_registered']); ?>
+                                            </td>
+                                            <td>
+                                                <?php echo htmlspecialchars($user['category']); ?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
