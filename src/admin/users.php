@@ -26,8 +26,8 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>OSMS - Admin Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -144,9 +144,12 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                                 <?php echo htmlspecialchars($user['date_registered']); ?>
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-success">Edit</button>
-                                                <button type="button" class="btn btn-warning">View</button>
-                                                <button type="button" class="btn btn-danger">Delete</button>
+                                                <button type="button" class="btn btn-success"
+                                                    onclick="redirectToEditPage(<?php echo $user['user_id']; ?>)">Edit</button>
+                                                <button type="button" class="btn btn-danger"
+                                                    onclick="showConfirmButton(this, <?php echo $user['user_id']; ?>)">Delete</button>
+                                                <button type="button" class="btn btn-danger" style="display: none;"
+                                                    onclick="deleteUser(<?php echo $user['user_id']; ?>)">Confirm</button>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -155,27 +158,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                     </div>
                 </div>
-                <!-- Edit Modal -->
-                <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="editModalLabel">Edit User</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <!-- Your form for editing a user goes here -->
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
             </main>
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
@@ -191,21 +174,45 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </footer>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    <script>
+        function redirectToEditPage(userId) {
+            window.location.href = 'edit_user.php?user_id=' + userId;
+        }
+        function showConfirmButton(deleteButton, userId) {
+            // Get the next sibling element, which is the confirm button
+            var confirmButton = deleteButton.nextElementSibling;
+
+            // Show the confirm button
+            confirmButton.style.display = 'inline-block';
+
+            // Set the user id to delete on the confirm button
+            confirmButton.setAttribute('data-user-id', userId);
+        }
+
+        function deleteUser(userId) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'delete_user.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send('user_id=' + encodeURIComponent(userId));
+
+            xhr.onload = function () {
+                if (xhr.status == 200) {
+                    location.reload();
+                } else {
+                    console.error('Error deleting user:', xhr.responseText);
+                }
+            };
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
-    <script src="js/scripts.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="assets/demo/chart-area-demo.js"></script>
-    <script src="assets/demo/chart-bar-demo.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
-    <script src="js/datatables-simple-demo.js"></script>
-    <script src="./plugins/chart.min.js"></script>
-    <script src="plugins/feather.min.js"></script>
-    <script src="js/script.js"></script>
-    <script src="js/elescript.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
